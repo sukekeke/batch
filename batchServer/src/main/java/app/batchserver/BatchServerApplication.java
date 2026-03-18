@@ -8,7 +8,6 @@ public class BatchServerApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(BatchServerApplication.class, args);
-		System.out.println("きたきた");
 	}
 
 }
