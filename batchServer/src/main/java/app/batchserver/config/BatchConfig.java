@@ -1,4 +1,4 @@
-package app.batchserver;
+package app.batchserver.config;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -9,6 +9,8 @@ import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
+
+import app.batchserver.service.RaceBatchService;
 
 @Configuration
 public class BatchConfig {
@@ -22,10 +24,11 @@ public class BatchConfig {
 
     @Bean
     public Step sampleStep(JobRepository jobRepository,
-                           PlatformTransactionManager transactionManager) {
+                           PlatformTransactionManager transactionManager,
+                           RaceBatchService raceBatchService) {
         return new StepBuilder("sampleStep", jobRepository)
                 .tasklet((contribution, chunkContext) -> {
-                    System.out.println("バッチ処理が実行されました！");
+                    raceBatchService.execute();
                     return RepeatStatus.FINISHED;
                 }, transactionManager)
                 .build();
